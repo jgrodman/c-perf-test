@@ -1,2 +1,4 @@
 *.so
 *.o
+visitor_dynamic
+visitor_static
