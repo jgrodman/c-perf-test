@@ -1,6 +1,6 @@
 ﻿using System;
-
 using System.Diagnostics;
+using System.Security;
 
 
 using System.Runtime.InteropServices;
@@ -10,7 +10,7 @@ namespace cs
     class Program
     {
 
-        [DllImport("libvisit.so", EntryPoint="visit")]
+        [DllImport("libvisit.so", EntryPoint="visit"), SuppressUnmanagedCodeSecurity]
         public static extern void visit(IntPtr callback);
 
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
