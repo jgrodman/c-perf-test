@@ -23,7 +23,7 @@ namespace cs
             Console.WriteLine("Hello World!");
 
             Callback myCb = new Callback(cb);
-            IntPtr pMyCb = Marshal.GetFunctionPointerForDelegate(myCb);
+            IntPtr pMyCb = Marshal.GetFunctionPointerForDelegate<Callback>(myCb);
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
