@@ -3,3 +3,5 @@
 visitor_dynamic
 visitor_static
 *.swp
+bin/
+obj/

@@ -5,7 +5,7 @@ extern "C" {
 #include "../visit.h"
 }
 
-void visitor(void){
+ /*__attribute__((stdcall))*/ void visitor(void){
 }
 
 

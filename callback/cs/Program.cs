@@ -13,7 +13,7 @@ namespace cs
         [DllImport("libvisit.so", EntryPoint="visit"), SuppressUnmanagedCodeSecurity]
         public static extern void visit(IntPtr callback);
 
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void Callback();
 	
 	[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
