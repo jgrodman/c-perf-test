@@ -10,20 +10,32 @@ namespace cs
     class Program
     {
 
-        [DllImport("libvisit.so", EntryPoint="visit", CallingConvention=CallingConvention.StdCall)]
+        [DllImport("libvisit.so", EntryPoint="visit")]
         public static extern void visit(IntPtr callback);
 
+	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void Callback();
+	
+	[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        public delegate void ThisCallback(IntPtr ip);
+
+
+	public class InnerProgram {
+          public InnerProgram() {}
+	  public void cb(IntPtr ip) {}
+	}
 
         static void cb() {
         }
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
             Callback myCb = new Callback(cb);
             IntPtr pMyCb = Marshal.GetFunctionPointerForDelegate<Callback>(myCb);
+
+            InnerProgram innerPg = new InnerProgram();
+	    ThisCallback myInnerCb = new ThisCallback(innerPg.cb);
+            IntPtr pMyInnerCb = Marshal.GetFunctionPointerForDelegate<ThisCallback>(myInnerCb);
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
