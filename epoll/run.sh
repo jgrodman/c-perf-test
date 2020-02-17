@@ -1,5 +1,5 @@
 rm out.txt
-for i in {1..5}
+for i in {1..100}
 do
 	./test >> out.txt
 done
