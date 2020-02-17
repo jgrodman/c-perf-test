@@ -11,6 +11,7 @@ measure time
 
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
+#include <sys/time.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <errno.h>
@@ -19,16 +20,22 @@ measure time
 
 #define MAX_EVENTS 10
 
-clock_t t;
+
+int LOOPS = 4 * 1000 * 1000;
+uint64_t u = 1;
+struct timeval start, end;
 
 void *w(void *arg)
 {
-	sleep(1);
-	//printf("writing\n");
 	int ret;
-	uint64_t u = 1;
-	t = clock();
-	ret = write(3, &u, sizeof(uint64_t));
+	struct epoll_event events[MAX_EVENTS];
+	//for (int i = 0; i < LOOPS; i++)
+	//{
+	sleep(1);
+	gettimeofday(&start, NULL);
+	//	epoll_wait(4, events, MAX_EVENTS, -1);
+		ret = write(3, &u, sizeof(uint64_t));
+	//}
 }
 
 int main()
@@ -48,12 +55,14 @@ int main()
 
 	pthread_t th;
 	pthread_create(&th, NULL, w, NULL);
-	ret = epoll_wait(epollfd, events, MAX_EVENTS, -1);
-	t = clock() - t;
-	double time_taken = ((double)t)/CLOCKS_PER_SEC * 1000 * 1000; // in microseconds
-	//printf("t: %ld\n", t);
-	printf("%f\n", time_taken);
+	//for (int i = 0; i < LOOPS; i++)
+	//{
+	//	ret = write(fd, &u, sizeof(uint64_t));
+		ret = epoll_wait(epollfd, events, MAX_EVENTS, -1);
+	//}
+	gettimeofday(&end, NULL);
+	long seconds = end.tv_sec - start.tv_sec;
+	long micros = ((seconds * 1000000) + end.tv_usec) - start.tv_usec;
+	printf("%ld\n", micros);
 
-
-	//printf("epoll_wait ret: %d\n", ret);
 }
