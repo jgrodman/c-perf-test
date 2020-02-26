@@ -5,3 +5,4 @@ visitor_static
 *.swp
 bin/
 obj/
+out.txt
